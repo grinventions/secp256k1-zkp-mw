@@ -1,3 +1,5 @@
+secpk256k1-zkp/*
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
