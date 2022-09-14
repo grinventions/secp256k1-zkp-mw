@@ -59,13 +59,3 @@ Running lib.secp256k1_context_create(lib.SECP256K1_CONTEXT_NONE)
 ...and it returned
 <cdata 'struct secp256k1_context_struct *' 0x7f9432704440>
 ```
-
-## Donate
-
-Anyone who wishes to support this project is welcome to donate to the following grin address
-
-```
-grin1vcjsgk6rltncqh7cxjywukjfrf825d8a6xk77msfuhf9ev3r55wq7l2ng4
-```
-
-which is my donation address, my username is [@marekyggdrasil](https://github.com/marekyggdrasil) and if you want to know more about on the [grin forum](https://forum.grin.mw/) I am known as [@renzokuken](https://forum.grin.mw/u/renzokuken/summary) me check [my website](https://mareknarozniak.com/).
