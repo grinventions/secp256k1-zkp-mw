@@ -54,3 +54,10 @@ void secp256k1_context_set_error_callback(
     void (*fun)(const char* message, void* data),
     const void* data
 );
+
+int secp256k1_ec_pubkey_parse(
+    const secp256k1_context* ctx,
+    secp256k1_pubkey* pubkey,
+    const unsigned char *input,
+    size_t inputlen
+);
