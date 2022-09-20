@@ -157,3 +157,21 @@ int secp256k1_context_randomize(
     secp256k1_context* ctx,
     const unsigned char *seed32
 );
+
+int secp256k1_ec_pubkey_combine(
+		const secp256k1_context* ctx,
+		secp256k1_pubkey *out,
+		const secp256k1_pubkey * const * ins,
+		size_t n
+);
+
+/* This def doesn't work yet - further testing required.
+int secp256k1_tagged_sha256(
+		const secp256k1_context* ctx,
+		unsigned char *hash32,
+		const unsigned char *tag,
+		size_t taglen,
+		const unsigned char *msg,
+		size_t msglen
+);
+*/
