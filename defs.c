@@ -109,3 +109,51 @@ int secp256k1_ecdsa_signature_normalize(
     const secp256k1_ecdsa_signature *sigin
 );
 
+int secp256k1_ecdsa_sign(
+    const secp256k1_context* ctx,
+    secp256k1_ecdsa_signature *sig,
+    const unsigned char *msg32,
+    const unsigned char *seckey,
+    secp256k1_nonce_function noncefp,
+    const void *ndata
+);
+
+int secp256k1_ec_seckey_verify(
+    const secp256k1_context* ctx,
+    const unsigned char *seckey
+);
+
+int secp256k1_ec_pubkey_create(
+    const secp256k1_context* ctx,
+    secp256k1_pubkey *pubkey,
+    const unsigned char *seckey
+);
+
+int secp256k1_ec_privkey_tweak_add(
+    const secp256k1_context* ctx,
+    unsigned char *seckey,
+    const unsigned char *tweak
+);
+
+int secp256k1_ec_pubkey_tweak_add(
+    const secp256k1_context* ctx,
+    secp256k1_pubkey *pubkey,
+    const unsigned char *tweak
+);
+
+int secp256k1_ec_privkey_tweak_mul(
+    const secp256k1_context* ctx,
+    unsigned char *seckey,
+    const unsigned char *tweak
+);
+
+int secp256k1_ec_pubkey_tweak_mul(
+    const secp256k1_context* ctx,
+    secp256k1_pubkey *pubkey,
+    const unsigned char *tweak
+);
+
+int secp256k1_context_randomize(
+    secp256k1_context* ctx,
+    const unsigned char *seed32
+);
