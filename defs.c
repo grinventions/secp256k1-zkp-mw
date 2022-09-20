@@ -1,9 +1,9 @@
 typedef struct secp256k1_context_struct secp256k1_context;
-/*
+
 typedef struct {
     unsigned char data[64];
 } secp256k1_pubkey;
-
+/*
 typedef struct {
     unsigned char data[64];
 } secp256k1_ecdsa_signature;
@@ -53,4 +53,19 @@ void secp256k1_context_set_error_callback(
     secp256k1_context* ctx,
     void (*fun)(const char* message, void* data),
     const void* data
+);
+
+int secp256k1_ec_pubkey_parse(
+	const secp256k1_context* ctx,
+        secp256k1_pubkey* pubkey,
+        const unsigned char *input,
+        size_t inputlen
+);
+
+int secp256k1_ec_pubkey_serialize(
+    const secp256k1_context* ctx,
+    unsigned char *output,
+    size_t *outputlen,
+    const secp256k1_pubkey* pubkey,
+    unsigned int flags
 );
