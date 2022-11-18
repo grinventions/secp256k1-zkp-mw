@@ -39,7 +39,10 @@ definitions = [
     ('ENABLE_MODULE_RANGEPROOF', '1'),
     ('ENABLE_MODULE_BULLETPROOF', '1'),
     ('ENABLE_MODULE_AGGSIG', '1'),
-    ('ENABLE_MODULE_SCHNORRSIG', '1')
+    ('ENABLE_MODULE_SCHNORRSIG', '1'),
+    ('ENABLE_MODULE_COMMITMENT', '1'),
+    ('ENABLE_MODULE_WHITELIST', '1'),
+    ('ENABLE_MODULE_SURJECTIONPROOF', '1')
 ]
 
 include = ''
@@ -54,7 +57,7 @@ ffi.set_source(
     "secp256k1_mw",
     include,
     include_dirs=['secp256k1-zkp', 'secp256k1-zkp/src', 'secp256k1-zkp/include'],
-    extra_compile_args=['-g'],
+    extra_compile_args=['-g', '-Wno-unused-function', '-Wno-nonnull-compare', '-Wno-maybe-uninitialized'],
     sources=c_files,
     define_macros=definitions
 )

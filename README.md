@@ -59,3 +59,11 @@ Running lib.secp256k1_context_create(lib.SECP256K1_CONTEXT_NONE)
 ...and it returned
 <cdata 'struct secp256k1_context_struct *' 0x7f9432704440>
 ```
+
+## Test
+
+Use pytest to test all the functions
+
+```sh
+pytest
+```
