@@ -244,7 +244,6 @@ This wrapper tries to expose all the underlying libsecp256k1-zkp functions to Py
 
 [secp256k1_whitelist_verify](#secp256k1_whitelist_verify)
 
-
 ## Definitions
 | Name           | Type | Description |
 |----------------|------|-------------|
@@ -422,7 +421,7 @@ All of the following functions will raise the following exceptions for the descr
 **Return on failure:** `None`
 
 ### secp256k1_ecdsa_signature_parse_compact
-> Returns a ECDSA signature if the provided input is a valid serialized ECDSA compact signature.
+> Returns an ECDSA signature if the provided input is a valid serialized ECDSA compact signature.
 
 **Definition:** `secp256k1_ecdsa_signature_parse_compact(ctx, input64)`
 
@@ -437,7 +436,7 @@ All of the following functions will raise the following exceptions for the descr
 **Return on failure:** `None`
 
 ### secp256k1_ecdsa_signature_parse_der
-> Returns a ECDSA signature if the provided input is a valid serialized ECDSA DER signature.
+> Returns an ECDSA signature if the provided input is a valid serialized ECDSA DER signature.
 
 **Definition:** `secp256k1_ecdsa_signature_parse_der(ctx, input)`
 
