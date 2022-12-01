@@ -45,12 +45,12 @@ def secp256k1_context_destroy(ctx):
 
 def secp256k1_context_set_illegal_callback(ctx, fun, data):
     if not isinstance(data, ffi.CData) and data is not None:
-        raise TypeError('CData is required')
+        raise TypeError('CData or None is required')
     lib.secp256k1_context_set_illegal_callback(ctx, fun if fun is not None else ffi.NULL, data if data is not None else ffi.NULL)
 
 def secp256k1_context_set_error_callback(ctx, fun, data):
     if not isinstance(data, ffi.CData) and data is not None:
-        raise TypeError('CData is required')
+        raise TypeError('CData or None is required')
     lib.secp256k1_context_set_error_callback(ctx, fun if fun is not None else ffi.NULL, data if data is not None else ffi.NULL)
 
 def secp256k1_scratch_space_create(ctx, max_size):
@@ -198,7 +198,7 @@ def secp256k1_context_randomize(ctx, seed32):
 
 def secp256k1_ec_pubkey_combine(ctx, ins):
     if type(ins) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_pubkey *> is required')
     out = ffi.new('secp256k1_pubkey *')
     result = lib.secp256k1_ec_pubkey_combine(ctx, out, ins, len(ins))
     return out if result == 1 else None
@@ -219,7 +219,7 @@ def secp256k1_ec_privkey_tweak_neg(ctx, seckey):
 
 def secp256k1_aggsig_context_create(ctx, pubkeys, seed):
     if type(pubkeys) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_pubkey *> is required')
     if not all(isinstance(pubkey, ffi.CData) and ffi.typeof(pubkey) is ffi.typeof('secp256k1_pubkey *') for pubkey in pubkeys):
         raise TypeError('list<secp256k1_pubkey *> is required')
     if type(seed) is not bytes:
@@ -270,7 +270,7 @@ def secp256k1_aggsig_partial_sign(ctx, aggctx, msg32, seckey32, index):
 
 def secp256k1_aggsig_combine_signatures(ctx, aggctx, partial):
     if type(partial) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_aggsig_partial_signature *> is required')
     if not all(isinstance(sig, ffi.CData) and ffi.typeof(sig) is ffi.typeof('secp256k1_aggsig_partial_signature *') for sig in partial):
         raise TypeError('list<secp256k1_aggsig_partial_signature *> is required')
     partial_signatures = ffi.new('secp256k1_aggsig_partial_signature []', len(partial))
@@ -282,7 +282,7 @@ def secp256k1_aggsig_combine_signatures(ctx, aggctx, partial):
 
 def secp256k1_aggsig_add_signatures_single(ctx, sigs, pubnonce_total):
     if type(sigs) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_ecdsa_signature *> is required')
     if not all(isinstance(sig, ffi.CData) and ffi.typeof(sig) is ffi.typeof('secp256k1_ecdsa_signature *') for sig in sigs):
         raise TypeError('list<secp256k1_ecdsa_signature *> is required')
     sig64 = ffi.new('secp256k1_ecdsa_signature *')
@@ -305,7 +305,7 @@ def secp256k1_aggsig_verify(ctx, scratch, sig64, msg32, pubkeys):
     if type(msg32) is not bytes:
         raise TypeError('bytes is required')
     if type(pubkeys) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_pubkey *> is required')
     if not all(isinstance(pubkey, ffi.CData) and ffi.typeof(pubkey) is ffi.typeof('secp256k1_pubkey *') for pubkey in pubkeys):
         raise TypeError('list<secp256k1_pubkey *> is required')
     public_keys = ffi.new('secp256k1_pubkey []', len(pubkeys))
@@ -320,7 +320,7 @@ def secp256k1_aggsig_build_scratch_and_verify(ctx, sig64, msg32, pubkeys):
     if type(msg32) is not bytes:
         raise TypeError('bytes is required')
     if type(pubkeys) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_pubkey *> is required')
     if not all(isinstance(pubkey, ffi.CData) and ffi.typeof(pubkey) is ffi.typeof('secp256k1_pubkey *') for pubkey in pubkeys):
         raise TypeError('list<secp256k1_pubkey *> is required')
     public_keys = ffi.new('secp256k1_pubkey []', len(pubkeys))
@@ -340,9 +340,9 @@ def secp256k1_bulletproof_rangeproof_verify(ctx, scratch, gens, proof, min_value
     if type(proof) is not bytes:
         raise TypeError('bytes is required')
     if type(min_value) is not list and min_value is not None:
-        raise TypeError('list or None is required')
+        raise TypeError('list<int> or None is required')
     if type(commit) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_pedersen_commitment *> is required')
     if not all(isinstance(commitment, ffi.CData) and ffi.typeof(commitment) is ffi.typeof('secp256k1_pedersen_commitment *') for commitment in commit):
         raise TypeError('list<secp256k1_pedersen_commitment *> is required')
     if type(extra_commit) is not bytes and extra_commit is not None:
@@ -355,29 +355,29 @@ def secp256k1_bulletproof_rangeproof_verify(ctx, scratch, gens, proof, min_value
 
 def secp256k1_bulletproof_rangeproof_verify_multi(ctx, scratch, gens, proof, min_value, commit, nbits, value_gen, extra_commit):
     if type(proof) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<bytes> is required')
     if not all(type(bulletproof) is bytes for bulletproof in proof):
         raise TypeError('list<bytes> is required')
     if type(min_value) is not list and min_value is not None:
-        raise TypeError('list is required')
+        raise TypeError('list<list<int>> or None is required')
     if type(min_value) is list:
         if not all(type(minimum_value) is list for minimum_value in min_value):
-            raise TypeError('list<list> is required')
+            raise TypeError('list<list<int>> or None is required')
     if type(commit) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<list<secp256k1_pedersen_commitment *>> is required')
     if not all(type(commitments) is list for commitments in commit):
-        raise TypeError('list<list> is required')
+        raise TypeError('list<list<secp256k1_pedersen_commitment *>> is required')
     if not all(all(isinstance(commitment, ffi.CData) and ffi.typeof(commitment) is ffi.typeof('secp256k1_pedersen_commitment *') for commitment in commits) for commits in commit):
         raise TypeError('list<list<secp256k1_pedersen_commitment *>> is required')
     if type(value_gen) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_generator *> is required')
     if not all(isinstance(value_generator, ffi.CData) and ffi.typeof(value_generator) is ffi.typeof('secp256k1_generator *') for value_generator in value_gen):
         raise TypeError('list<secp256k1_generator *> is required')
     if type(extra_commit) is not list and extra_commit is not None:
-        raise TypeError('list is required')
+        raise TypeError('list<bytes> or None is required')
     if type(extra_commit) is list:
         if not all(type(extra_commitment) is bytes for extra_commitment in extra_commit):
-            raise TypeError('list<bytes> is required')
+            raise TypeError('list<bytes> or None is required')
     min_values = list(map(lambda mininum_values : ffi.new('uint64_t []', len(mininum_values)), min_value)) if type(min_value) is list else None
     if type(min_value) is list:
         for group_index, minimum_values in enumerate(min_value):
@@ -412,15 +412,15 @@ def secp256k1_bulletproof_rangeproof_prove(ctx, scratch, gens, tau_x, t_one, t_t
     if type(tau_x) is not bytes and tau_x is not None:
         raise TypeError('bytes or None is required')
     if type(value) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<int> is required')
     if type(min_value) is not list and min_value is not None:
-        raise TypeError('list or None is required')
+        raise TypeError('list<int> or None is required')
     if type(blind) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<bytes> is required')
     if not all(type(blinding_factor) is bytes for blinding_factor in blind):
         raise TypeError('list<bytes> is required')
     if type(commits) is not list and commits is not None:
-        raise TypeError('list or None is required')
+        raise TypeError('list<secp256k1_pedersen_commitment *> or None is required')
     if type(nonce) is not bytes:
         raise TypeError('bytes is required')
     if type(private_nonce) is not bytes and private_nonce is not None:
@@ -464,7 +464,7 @@ def secp256k1_pedersen_blind_commit(ctx, blind, value, value_gen, blind_gen):
 
 def secp256k1_pedersen_blind_sum(ctx, blinds, npositive):
     if type(blinds) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<bytes> is required')
     if not all(type(blind) is bytes for blind in blinds):
         raise TypeError('list<bytes> is required')
     blind_out = ffi.new('unsigned char []', 32)
@@ -473,30 +473,30 @@ def secp256k1_pedersen_blind_sum(ctx, blinds, npositive):
 
 def secp256k1_pedersen_commit_sum(ctx, commits, ncommits):
     if type(commits) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_pedersen_commitment *> is required')
     if type(ncommits) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_pedersen_commitment *> is required')
     commit_out = ffi.new('secp256k1_pedersen_commitment *')
     result = lib.secp256k1_pedersen_commit_sum(ctx, commit_out, commits, len(commits), ncommits, len(ncommits))
     return commit_out if result == 1 else None
 
 def secp256k1_pedersen_verify_tally(ctx, pos, neg):
     if type(pos) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_pedersen_commitment *> is required')
     if type(neg) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_pedersen_commitment *> is required')
     result = lib.secp256k1_pedersen_verify_tally(ctx, pos, len(pos), neg, len(neg))
     return result == 1
 
 def secp256k1_pedersen_blind_generator_blind_sum(ctx, value, generator_blind, blinding_factor, n_inputs):
     if type(value) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<int> is required')
     if type(generator_blind) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<bytes> is required')
     if not all(type(blind) is bytes for blind in generator_blind):
         raise TypeError('list<bytes> is required')
     if type(blinding_factor) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<bytes> is required')
     if not all(type(blind) is bytes for blind in blinding_factor):
         raise TypeError('list<bytes> is required')
     assert len(blinding_factor) >= 1
@@ -697,13 +697,13 @@ def secp256k1_schnorrsig_verify(ctx, sig, msg32, pubkey):
 
 def secp256k1_schnorrsig_verify_batch(ctx, scratch, sig, msg32, pk):
     if type(sig) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_schnorrsig *> is required')
     if type(msg32) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<bytes> is required')
     if not all(type(message) is bytes for message in msg32):
         raise TypeError('list<bytes> is required')
     if type(pk) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_pubkey *> is required')
     result = lib.secp256k1_schnorrsig_verify_batch(ctx, scratch, sig, list(map(lambda message : ffi.from_buffer(message), msg32)), pk, len(sig))
     return result == 1
 
@@ -734,7 +734,7 @@ def secp256k1_surjectionproof_serialized_size(ctx, proof):
 
 def secp256k1_surjectionproof_initialize(ctx, fixed_input_tags, n_input_tags_to_use, fixed_output_tag, n_max_iterations, random_seed32):
     if type(fixed_input_tags) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_fixed_asset_tag *> is required')
     if not all(isinstance(fixed_input_tag, ffi.CData) and ffi.typeof(fixed_input_tag) is ffi.typeof('secp256k1_fixed_asset_tag *') for fixed_input_tag in fixed_input_tags):
         raise TypeError('list<secp256k1_fixed_asset_tag *> is required')
     if type(random_seed32) is not bytes:
@@ -751,7 +751,7 @@ def secp256k1_surjectionproof_generate(ctx, proof, ephemeral_input_tags, ephemer
     if not isinstance(proof, ffi.CData) or not ffi.typeof(proof) is ffi.typeof('secp256k1_surjectionproof *'):
         raise TypeError('secp256k1_surjectionproof * is required')
     if type(ephemeral_input_tags) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_generator *> is required')
     if not all(isinstance(ephemeral_input_tag, ffi.CData) and ffi.typeof(ephemeral_input_tag) is ffi.typeof('secp256k1_generator *') for ephemeral_input_tag in ephemeral_input_tags):
         raise TypeError('list<secp256k1_generator *> is required')
     if type(input_blinding_key) is not bytes:
@@ -768,7 +768,7 @@ def secp256k1_surjectionproof_generate(ctx, proof, ephemeral_input_tags, ephemer
 
 def secp256k1_surjectionproof_verify(ctx, proof, ephemeral_input_tags, ephemeral_output_tag):
     if type(ephemeral_input_tags) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_generator *> is required')
     if not all(isinstance(ephemeral_input_tag, ffi.CData) and ffi.typeof(ephemeral_input_tag) is ffi.typeof('secp256k1_generator *') for ephemeral_input_tag in ephemeral_input_tags):
         raise TypeError('list<secp256k1_generator *> is required')
     input_tags = ffi.new('secp256k1_generator []', len(ephemeral_input_tags))
@@ -797,11 +797,11 @@ def secp256k1_whitelist_signature_serialize(ctx, sig):
 
 def secp256k1_whitelist_sign(ctx, online_pubkeys, offline_pubkeys, sub_pubkey, online_seckey, summed_seckey, index, noncefp, noncedata):
     if type(online_pubkeys) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_pubkey *> is required')
     if not all(isinstance(online_pubkey, ffi.CData) and ffi.typeof(online_pubkey) is ffi.typeof('secp256k1_pubkey *') for online_pubkey in online_pubkeys):
         raise TypeError('list<secp256k1_pubkey *> is required')
     if type(offline_pubkeys) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_pubkey *> is required')
     if not all(isinstance(offline_pubkey, ffi.CData) and ffi.typeof(offline_pubkey) is ffi.typeof('secp256k1_pubkey *') for offline_pubkey in offline_pubkeys):
         raise TypeError('list<secp256k1_pubkey *> is required')
     if type(online_seckey) is not bytes:
@@ -822,11 +822,11 @@ def secp256k1_whitelist_sign(ctx, online_pubkeys, offline_pubkeys, sub_pubkey, o
 
 def secp256k1_whitelist_verify(ctx, sig, online_pubkeys, offline_pubkeys, sub_pubkey):
     if type(online_pubkeys) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_pubkey *> is required')
     if not all(isinstance(online_pubkey, ffi.CData) and ffi.typeof(online_pubkey) is ffi.typeof('secp256k1_pubkey *') for online_pubkey in online_pubkeys):
         raise TypeError('list<secp256k1_pubkey *> is required')
     if type(offline_pubkeys) is not list:
-        raise TypeError('list is required')
+        raise TypeError('list<secp256k1_pubkey *> is required')
     if not all(isinstance(offline_pubkey, ffi.CData) and ffi.typeof(offline_pubkey) is ffi.typeof('secp256k1_pubkey *') for offline_pubkey in offline_pubkeys):
         raise TypeError('list<secp256k1_pubkey *> is required')
     online_public_keys = ffi.new('secp256k1_pubkey []', len(online_pubkeys))
