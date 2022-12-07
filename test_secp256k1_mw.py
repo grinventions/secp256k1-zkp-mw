@@ -104,11 +104,31 @@ def test_secp256k1_context_destroy():
         secp256k1_context_destroy('string')
 
 def test_secp256k1_context_set_illegal_callback():
-    # Test setting illegal callback
-    ctx = secp256k1_context_create(SECP256K1_CONTEXT_VERIFY | SECP256K1_CONTEXT_SIGN)
+    # Test setting no illegal callback
+    ctx = secp256k1_context_create(SECP256K1_CONTEXT_NONE)
     assert ctx is not None
     secp256k1_context_set_illegal_callback(ctx, None, None)
     assert True
+
+    # Test setting illegal callback without data
+    @ffi.callback('void (char *, void *)')
+    def fun(message, data):
+        if data != ffi.NULL:
+            int_data = ffi.cast('int *', data)
+            int_data[0] += 1
+    secp256k1_context_set_illegal_callback(ctx, fun, None)
+    secp256k1_ec_pubkey_create(ctx, bytes(32))
+    assert True
+
+    # Test setting illegal callback without function
+    data = ffi.new('int *', 0)
+    secp256k1_context_set_illegal_callback(ctx, None, data)
+    assert True
+
+    # Test setting illegal callback with all
+    secp256k1_context_set_illegal_callback(ctx, fun, data)
+    secp256k1_ec_pubkey_create(ctx, bytes(32))
+    assert data[0] == 1
 
     # Test setting illegal callback with invalid types
     with pytest.raises(TypeError):
@@ -121,10 +141,28 @@ def test_secp256k1_context_set_illegal_callback():
         secp256k1_context_set_illegal_callback(ctx, None, 'string')
 
 def test_secp256k1_context_set_error_callback():
-    # Test setting error callback
-    ctx = secp256k1_context_create(SECP256K1_CONTEXT_VERIFY | SECP256K1_CONTEXT_SIGN)
+    # Test setting no error callback
+    ctx = secp256k1_context_create(SECP256K1_CONTEXT_NONE)
     assert ctx is not None
     secp256k1_context_set_error_callback(ctx, None, None)
+    assert True
+
+    # Test setting error callback without data
+    @ffi.callback('void (char *, void *)')
+    def fun(message, data):
+        if data != ffi.NULL:
+            int_data = ffi.cast('int *', data)
+            int_data[0] += 1
+    secp256k1_context_set_error_callback(ctx, fun, None)
+    assert True
+
+    # Test setting error callback without function
+    data = ffi.new('int *', 0)
+    secp256k1_context_set_error_callback(ctx, None, data)
+    assert True
+
+    # Test setting error callback with all
+    secp256k1_context_set_error_callback(ctx, fun, data)
     assert True
 
     # Test setting error callback with invalid types
