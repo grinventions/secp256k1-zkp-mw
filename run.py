@@ -1,4 +1,4 @@
-from secp256k1_mw import ffi, lib
+from secp256k1_zkp_mw import ffi, lib
 
 print('Generated definitions from C')
 print()

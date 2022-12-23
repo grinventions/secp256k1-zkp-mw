@@ -1,6 +1,6 @@
 secpk256k1-zkp/*
 
-secp256k1_mw.c
+secp256k1_zkp_mw.c
 *.o
 
 # Byte-compiled / optimized / DLL files

@@ -51,7 +51,7 @@ with open(basepath + '/defs.c', 'rt') as fid:
     ffi.cdef(_source)
 
 ffi.set_source(
-    "secp256k1_mw",
+    "secp256k1_zkp_mw",
     include,
     include_dirs=[
         basepath + '/secp256k1-zkp',

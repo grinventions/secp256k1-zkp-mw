@@ -17,7 +17,6 @@ setup(
     install_requires=['cffi>=1.3.0'],
 
     packages=find_packages(),
-    ext_package='secp256k1_zkp_mw',
     cffi_modules=[
         'build.py:ffi'
     ],
