@@ -3,27 +3,27 @@ import sys
 
 from cffi import FFI, VerificationError
 
+basepath = os.path.abspath(os.path.dirname(__file__))
+
 ffi = FFI()
 
 dirs = ['/secp256k1-zkp/include']
 c_files = []
 h_files = []
 
-# os.environ['USE_NUM_NONE'] = '1'
-
 for d in dirs:
-    root_dir = os.path.abspath(os.path.dirname(__file__)) + d
+    root_dir = basepath + d
     cwd = str(os.getcwdb())
 
     for root, dirs, _files in os.walk(root_dir):
         for f in _files:
-            path = os.path.join(os.path.relpath(root), f)
+            path = os.path.join(os.path.abspath(root), f)
             if (f.endswith('.h')):
                 h_files.append(path)
 
 c_files = [
-    'secp256k1-zkp/contrib/lax_der_parsing.c',
-    'secp256k1-zkp/src/secp256k1.c'
+    basepath + '/secp256k1-zkp/contrib/lax_der_parsing.c',
+    basepath + '/secp256k1-zkp/src/secp256k1.c'
 ]
 
 definitions = [
@@ -49,17 +49,22 @@ include = ''
 for f in h_files:
      include += '#include "{0}"\n'.format(f)
 
-with open('defs.c', 'rt') as fid:
+with open(basepath + '/defs.c', 'rt') as fid:
     _source = fid.read()
     ffi.cdef(_source)
 
 ffi.set_source(
-    "secp256k1_mw",
+    "secp256k1_zkp_mw",
     include,
-    include_dirs=['secp256k1-zkp', 'secp256k1-zkp/src', 'secp256k1-zkp/include'],
+    include_dirs=[
+        basepath + '/secp256k1-zkp',
+        basepath + '/secp256k1-zkp/src',
+        basepath + '/secp256k1-zkp/include'
+    ],
     extra_compile_args=['-g', '-Wno-unused-function', '-Wno-nonnull-compare', '-Wno-maybe-uninitialized'],
     sources=c_files,
     define_macros=definitions
 )
 
-ffi.compile()
+if __name__ == "__main__":
+    ffi.compile()
