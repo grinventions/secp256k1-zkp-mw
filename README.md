@@ -1757,7 +1757,7 @@ All of the following functions will raise the following exceptions for the descr
 
 #### secp256k1_surjectionproof_n_total_inputs
 
-> Returns the number of total inputs for of a provided surjection proof.
+> Returns the number of total inputs for a provided surjection proof.
 
 **Definition:** `secp256k1_surjectionproof_n_total_inputs(ctx, proof)`
 
@@ -1773,7 +1773,7 @@ All of the following functions will raise the following exceptions for the descr
 
 #### secp256k1_surjectionproof_n_used_inputs
 
-> Returns the number of used inputs for of a provided surjection proof.
+> Returns the number of used inputs for a provided surjection proof.
 
 **Definition:** `secp256k1_surjectionproof_n_used_inputs(ctx, proof)`
 
@@ -1880,7 +1880,7 @@ All of the following functions will raise the following exceptions for the descr
 
 #### secp256k1_whitelist_signature_n_keys
 
-> Returns the number of keys for of a provided whitelist signature.
+> Returns the number of keys for a provided whitelist signature.
 
 **Definition:** `secp256k1_whitelist_signature_n_keys(sig)`
 
