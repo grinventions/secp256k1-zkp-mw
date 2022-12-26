@@ -1,6 +1,5 @@
-from main import *
+from secp256k1_zkp_mw import *
 import pytest
-from secp256k1_mw import ffi
 
 def test_definitions():
     # Test definitions

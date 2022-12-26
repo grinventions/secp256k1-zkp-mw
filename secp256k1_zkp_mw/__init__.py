@@ -1,4 +1,4 @@
-from secp256k1_mw import ffi, lib
+from _secp256k1_zkp_mw import ffi, lib
 
 SECP256K1_FLAGS_TYPE_MASK = lib.SECP256K1_FLAGS_TYPE_MASK
 SECP256K1_FLAGS_TYPE_CONTEXT = lib.SECP256K1_FLAGS_TYPE_CONTEXT

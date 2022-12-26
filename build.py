@@ -54,14 +54,14 @@ with open(basepath + '/defs.c', 'rt') as fid:
     ffi.cdef(_source)
 
 ffi.set_source(
-    "secp256k1_zkp_mw",
+    "_secp256k1_zkp_mw",
     include,
     include_dirs=[
         basepath + '/secp256k1-zkp',
         basepath + '/secp256k1-zkp/src',
         basepath + '/secp256k1-zkp/include'
     ],
-    extra_compile_args=['-g', '-Wno-unused-function', '-Wno-nonnull-compare', '-Wno-maybe-uninitialized'],
+    extra_compile_args=['-g'],
     sources=c_files,
     define_macros=definitions
 )
