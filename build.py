@@ -39,7 +39,10 @@ definitions = [
     ('ENABLE_MODULE_RANGEPROOF', '1'),
     ('ENABLE_MODULE_BULLETPROOF', '1'),
     ('ENABLE_MODULE_AGGSIG', '1'),
-    ('ENABLE_MODULE_SCHNORRSIG', '1')
+    ('ENABLE_MODULE_SCHNORRSIG', '1'),
+    ('ENABLE_MODULE_COMMITMENT', '1'),
+    ('ENABLE_MODULE_WHITELIST', '1'),
+    ('ENABLE_MODULE_SURJECTIONPROOF', '1')
 ]
 
 include = ''
@@ -51,7 +54,7 @@ with open(basepath + '/defs.c', 'rt') as fid:
     ffi.cdef(_source)
 
 ffi.set_source(
-    "secp256k1_zkp_mw",
+    "_secp256k1_zkp_mw",
     include,
     include_dirs=[
         basepath + '/secp256k1-zkp',
