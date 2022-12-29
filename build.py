@@ -13,29 +13,28 @@ except ImportError:
 
 from cffi import FFI, VerificationError
 
-LIB_TARBALL_URL = 'https://github.com/mimblewimble/secp256k1-zkp/archive/8d1f5bb152580446a3438cd705caebacc2a5d850.tar.gz'
+LIB_COMMIT = '8d1f5bb152580446a3438cd705caebacc2a5d850'
+LIB_TARBALL_URL = 'https://github.com/mimblewimble/secp256k1-zkp/archive/{0}.tar.gz'.format(LIB_COMMIT)
 
 def download_library(basepath):
     libdir = os.path.join(os.path.abspath(basepath), 'secp256k1-zkp')
     if os.path.exists(os.path.join(libdir, 'autogen.sh')):
-        print('downloaded')
         return
-    print('not downloaded')
-    if not os.path.exists(libdir):
-        try:
-            r = urlopen(LIB_TARBALL_URL)
-            if r.getcode() == 200:
-                content = BytesIO(r.read())
-                content.seek(0)
-                with tarfile.open(fileobj=content) as tf:
-                    dirname = tf.getnames()[0].partition('/')[0]
-                    tf.extractall()
-                shutil.move(dirname, libdir)
-            else:
-                raise SystemExit(
-                    'Unable to download secp256k1 library: HTTP-Status: {0}'.format(str(r.getcode())))
-        except URLError as ex:
-            raise SystemExit('Unable to download secp256k1 library: {0}'.format(ex.message))
+    try:
+        r = urlopen(LIB_TARBALL_URL)
+        if r.getcode() == 200:
+            content = BytesIO(r.read())
+            content.seek(0)
+            with tarfile.open(fileobj=content) as tf:
+                dirname = tf.getnames()[0].partition('/')[0]
+                tf.extractall()
+                tarpath = os.path.join(basepath, dirname)
+                os.rename(tarpath, libdir)
+        else:
+            raise SystemExit(
+                'Unable to download secp256k1 library: HTTP-Status: {0}'.format(str(r.getcode())))
+    except URLError as ex:
+        raise SystemExit('Unable to download secp256k1 library: {0}'.format(ex.message))
 
 basepath = os.path.abspath(os.path.dirname(__file__))
 
