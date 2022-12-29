@@ -6,7 +6,17 @@ For now only few methods are correctly wrapped. My attempts of wrapping more of 
 
 ## Installation
 
-First clone this repo and change to its directory, then download the submodule [MW fork of secp256k1-zkp](https://github.com/mimblewimble/secp256k1-zkp) by running
+The module will automatically download the tarball containing [MW fork of secp256k1-zkp](https://github.com/mimblewimble/secp256k1-zkp) at the commit that is supported and tested in this release.
+
+```sh
+git clone https://github.com/grinventions/secp256k1-zkp-mw.git
+cd secp256k1-zkp-mw
+pip install .
+```
+
+## Development
+
+Locally, you may install this this module manually at arbitrary height of the [MW fork of secp256k1-zkp](https://github.com/mimblewimble/secp256k1-zkp) using submodule.
 
 ```sh
 git clone https://github.com/grinventions/secp256k1-zkp-mw.git
