@@ -9,10 +9,10 @@ For now only few methods are correctly wrapped. My attempts of wrapping more of 
 The module will automatically download the tarball containing [MW fork of secp256k1-zkp](https://github.com/mimblewimble/secp256k1-zkp) at the commit that is supported and tested in this release.
 
 ```sh
-git clone https://github.com/grinventions/secp256k1-zkp-mw.git
-cd secp256k1-zkp-mw
-pip install .
+pip install secp256k1-zkp-mw
 ```
+
+and you're good to go!
 
 ## Development
 
