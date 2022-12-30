@@ -29,6 +29,8 @@ def download_library(basepath):
                 dirname = tf.getnames()[0].partition('/')[0]
                 tf.extractall()
                 tarpath = os.path.join(basepath, dirname)
+                if os.path.exists(libdir):
+                    os.rmdir(libdir)
                 os.rename(tarpath, libdir)
         else:
             raise SystemExit(
