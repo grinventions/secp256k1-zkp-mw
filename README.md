@@ -14,6 +14,8 @@ pip install secp256k1-zkp-mw
 
 and you're good to go!
 
+If you're installing this module on Windows you'll need to temporarily change your `TEMP` environmental variable to something with a short path, like `C:\temp`, and create that folder before running the above command. This is required to workaround a limitation with the Visual Studio C/C++ compiler and files with long path names. You can revert the change to your `TEMP` environmental variable after the module is installed.
+
 ## Development
 
 Locally, you may install this this module manually at arbitrary height of the [MW fork of secp256k1-zkp](https://github.com/mimblewimble/secp256k1-zkp) using submodule.
