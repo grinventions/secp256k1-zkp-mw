@@ -59,8 +59,8 @@ for d in dirs:
                 h_files.append(path)
 
 c_files = [
-    basepath + '/secp256k1-zkp/contrib/lax_der_parsing.c',
-    basepath + '/secp256k1-zkp/src/secp256k1.c'
+    'secp256k1-zkp/contrib/lax_der_parsing.c',
+    'secp256k1-zkp/src/secp256k1.c'
 ]
 
 definitions = [
