@@ -32,16 +32,8 @@ def download_library(basepath):
                 if os.path.exists(libdir):
                     if os.listdir(libdir) == []:
                         os.rmdir(libdir)
-                if os.listdir(libdir) == []:
-                    os.rename(tarpath, libdir)
                 else:
-                    for f in os.listdir(tarpath):
-                        try:
-                            shutil.move(os.path.join(tarpath, f), libdir)
-                        except shutil.Error:
-                            # we only move missing files, this one
-                            # seems to be there already
-                            continue
+                    os.rename(tarpath, libdir)
         else:
             raise SystemExit(
                 'Unable to download secp256k1 library: HTTP-Status: {0}'.format(str(r.getcode())))
@@ -69,8 +61,8 @@ for d in dirs:
                 h_files.append(path)
 
 c_files = [
-    'secp256k1-zkp/contrib/lax_der_parsing.c',
-    'secp256k1-zkp/src/secp256k1.c'
+    basepath + '/secp256k1-zkp/contrib/lax_der_parsing.c',
+    basepath + '/secp256k1-zkp/src/secp256k1.c'
 ]
 
 definitions = [
