@@ -1,3 +1,4 @@
 include build.py
 include defs.c
 prune /
+prune *:/*
