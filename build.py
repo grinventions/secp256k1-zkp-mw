@@ -30,8 +30,18 @@ def download_library(basepath):
                 tf.extractall()
                 tarpath = os.path.join(basepath, dirname)
                 if os.path.exists(libdir):
-                    os.rmdir(libdir)
-                os.rename(tarpath, libdir)
+                    if os.listdir(libdir) == []:
+                        os.rmdir(libdir)
+                if os.listdir(libdir) == []:
+                    os.rename(tarpath, libdir)
+                else:
+                    for f in os.listdir(tarpath):
+                        try:
+                            shutil.move(os.path.join(tarpath, f), libdir)
+                        except shutil.Error:
+                            # we only move missing files, this one
+                            # seems to be there already
+                            continue
         else:
             raise SystemExit(
                 'Unable to download secp256k1 library: HTTP-Status: {0}'.format(str(r.getcode())))
