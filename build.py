@@ -32,8 +32,7 @@ def download_library(basepath):
                 if os.path.exists(libdir):
                     if os.listdir(libdir) == []:
                         os.rmdir(libdir)
-                else:
-                    os.rename(tarpath, libdir)
+                os.rename(tarpath, libdir)
         else:
             raise SystemExit(
                 'Unable to download secp256k1 library: HTTP-Status: {0}'.format(str(r.getcode())))
