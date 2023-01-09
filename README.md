@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/grinventions/secp256k1-zkp-mw.svg?branch=main)](https://travis-ci.com/grinventions/secp256k1-zkp-mw)
+
 # secp256k1-zkp-mw
 
 This is an early stage version of Python CFFI wrapper of the [MW fork of secp256k1-zkp](https://github.com/mimblewimble/secp256k1-zkp). It is very much needed to develop the [mimblewimble-py](https://github.com/grinventions/mimblewimble-py). Similar way as it was done with [rust-secp256k1-zkp](https://github.com/mimblewimble/rust-secp256k1-zkp). It is also inspired and partially based on [secp256k1-py](https://github.com/rustyrussell/secp256k1-py). All of the code used here is under the MIT license and there is no license conflict.
