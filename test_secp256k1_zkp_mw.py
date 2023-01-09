@@ -2126,19 +2126,19 @@ def test_secp256k1_generator_generate_blinded():
 def test_secp256k1_context_preallocated_size():
     # Test getting preallocated none context size
     none_context_size = secp256k1_context_preallocated_size(SECP256K1_CONTEXT_NONE)
-    assert none_context_size == 224
+    assert none_context_size == (224 if ffi.sizeof('void *') == 8 else 192)
 
     # Test getting preallocated verify context size
     verify_context_size = secp256k1_context_preallocated_size(SECP256K1_CONTEXT_VERIFY)
-    assert verify_context_size == 1048800
+    assert verify_context_size == (1048800 if ffi.sizeof('void *') == 8 else 1048768)
 
     # Test getting preallocated sign context size
     sign_context_size = secp256k1_context_preallocated_size(SECP256K1_CONTEXT_SIGN)
-    assert sign_context_size == 65760
+    assert sign_context_size == (65760 if ffi.sizeof('void *') == 8 else 65728)
 
     # Test getting preallocated verify and sign context size
     verify_and_sign_context_size = secp256k1_context_preallocated_size(SECP256K1_CONTEXT_VERIFY | SECP256K1_CONTEXT_SIGN)
-    assert verify_and_sign_context_size == 1114336
+    assert verify_and_sign_context_size == (1114336 if ffi.sizeof('void *') == 8 else 1114304)
 
     # Test getting preallocated context size with invalid types
     with pytest.raises(TypeError):
