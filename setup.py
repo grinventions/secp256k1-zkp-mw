@@ -5,9 +5,10 @@ from setuptools import setup, find_packages, Extension
 
 setup(
     name="secp256k1-zkp-mw",
-    version="0.4.1",
+    version="0.4.2",
     description='FFI bindings to libsecp256k1-zkp for Mimblewimble protocol',
     long_description=open('README.md').read(),
+    long_description_content_type="text/markdown",
     url='https://github.com/grinventions/secp256k1-zkp-mw',
     author='Marek Narozniak',
     author_email='marek.yggdrasil@gmail.com',
