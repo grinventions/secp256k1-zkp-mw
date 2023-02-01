@@ -12,8 +12,6 @@ setup(
     url='https://github.com/grinventions/secp256k1-zkp-mw',
     author='Marek Narozniak',
     author_email='marek.yggdrasil@gmail.com',
-    maintainer='Nicolas Flamel',
-    maintainer_email='nicolasflamel@mwcwallet.com',
     license='MIT',
 
     setup_requires=['cffi>=1.3.0'],
